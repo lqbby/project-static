@@ -16,3 +16,7 @@ function tip(ts) {
   document.querySelector("#myToast .toast-body").innerHTML = msg
   myToast.show()
 }
+
+
+// 配置ajax基地址
+axios.defaults.baseURL = 'http://ajax-api.itheima.net'
