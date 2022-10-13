@@ -86,42 +86,26 @@
     <script src="./lib/axios.js"></script>
     <script src="./js/common.js"></script>
     <script>
-      // ---------- 1.点击登录 ----------
-      document.querySelector('#btn-login').onclick = async function () {
-        // 2.获取数据 +判断
-        const data = serialize(document.querySelector('form'), { hash: true })
-        // console.log('data:', data)
-        if (data.username === undefined || data.password === undefined) {
-          tip('用户名密码不能为空!')
-          return // 阻断后续逻辑
-        }
-        // 密码长度判断
-        if (data.password.length < 6) {
-          tip('密码不能小于6位!')
-          return // 阻断后续逻辑
-        }
-        // 提交数据
-        try {
-          const res = await axios({
-            url: '/login',
-            method: 'post',
-            data, // data:data
+        document.querySelector('#btn-login').onclick = async function(){
+          const data = serialize(document.querySelector('form'),{hash:true})
+          if(!data.password||!data.username)return tip('用户名和密码不能为空')
+          if(data.password.length < 6)return tip('密码长度不能小于6位')
+          console.log(data);
+          try{
+            const res = await axios({
+              method:'POST',
+              url:'/login',
+              data
           })
-          // console.log('res:', res)
-          // 保存 token
-          localStorage.setItem('token', res.data.token)
-          localStorage.setItem('username', res.data.username)
-
-          // 成功
-          tip(res.message)
-          // 跳转
-          window.location.assign('./index.html')
-        } catch (error) {
-          console.dir(error) // 如果来源不是请求的错误而是其他的语法错误
-          // tip 无法通过response.data.message 获取数据
-          tip(error.response.data.message)
-        }
-      }
+          console.log(res);
+            tip(res.data.message)
+            localStorage.setItem('token',res.data.data.token)
+            localStorage.setItem('username',res.data.data.username)
+            location.href = './index.html'
+          }catch(err){
+            tip(err.response.data.message)
+          }
+        } 
     </script>
   </body>
 </html>

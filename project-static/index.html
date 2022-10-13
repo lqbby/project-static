@@ -1,17 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <script>
-      // 这段逻辑 希望执行的尽可能早
-      const token = localStorage.getItem('token')
-      // console.log('token:', token)
-      // token为null 没有登录 反之 登录啦
-      if (token === null) {
-        // alert('滚去登录!')
-        // 返回登录页
-        window.location.assign('./login.html')
-      }
-    </script>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,8 +9,14 @@
     <link rel="stylesheet" href="./bootstrap/bootstrap-icons.css" />
     <link rel="stylesheet" href="./css/common.css" />
     <link rel="stylesheet" href="./css/index.css" />
+    <script>
+      const token = localStorage.getItem("token");
+      if (!token) {
+        // tip('请先登录')
+        location.href = "./login.html";
+      }
+    </script>
   </head>
-
   <body class="application application-offset">
     <div class="container-fluid container-application">
       <div class="sidenav show" id="sidenav-main">
@@ -333,8 +328,5 @@
     <script src="./js/common.js"></script>
     <script src="./lib/china.js"></script>
     <script src="./js/index.js"></script>
-    <script>
-      // window.onload = function () {}
-    </script>
   </body>
 </html>
