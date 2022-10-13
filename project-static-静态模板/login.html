@@ -9,6 +9,13 @@
     <link rel="stylesheet" href="./bootstrap/bootstrap-icons.css" />
     <link rel="stylesheet" href="./css/common.css" />
     <link rel="stylesheet" href="./css/login.css" />
+    <script>
+      const token = localStorage.getItem('token')
+      console.log(token)
+      if (token === null) {
+        location.href = './login.html'
+      }
+    </script>
   </head>
   <body class="application application-offset">
     <div class="container-fluid container-application">
@@ -142,6 +149,7 @@
       })
       console.log(res);
       tip(res.data.message)
+      localStorage.setItem('token',res.data.dada.token)
       location.href='./index.html'
       } catch (err) {
       console.dir(err)
