@@ -9,6 +9,16 @@
     <link rel="stylesheet" href="./bootstrap/bootstrap-icons.css" />
     <link rel="stylesheet" href="./css/common.css" />
     <link rel="stylesheet" href="./css/student.css" />
+    <script>
+      // 门口保安 看有没有绿码
+      // 代码是从上往下执行
+      // 尝试获取有没有本地存储token
+      const token = localStorage.getItem('token')
+      console.log(token);
+      if (token === null) {
+        location.href = './login.html'
+      }
+    </script>
   </head>
   <body class="application application-offset">
     <div class="container-fluid container-application">
@@ -272,6 +282,15 @@
     <script src="./lib/form-serialize.js"></script>
     <script src="./js/common.js"></script>
     <script>
+      window.onload = async function() {
+        const res = await axios({
+            url:'/students',
+            headers: {
+              Authorization: localStorage.getItem('token')
+            }
+        })
+            console.log(res);
+      }
       
     </script>
   </body>
