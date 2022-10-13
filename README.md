@@ -1,3 +1,4 @@
+# git命令文档
 这三个命令只要电脑不重装系统，不用再设置了
 git config --global user.name "用户名"
 git config --global user.email "邮箱"
