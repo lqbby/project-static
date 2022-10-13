@@ -30,54 +30,28 @@
                           <label class="form-control-label">账号</label>
                           <div class="input-group input-group-merge">
                             <div class="input-group-prepend">
-                              <span class="input-group-text"
-                                ><i class="bi bi-person"></i
-                              ></span>
+                              <span class="input-group-text"><i class="bi bi-person"></i></span>
                             </div>
-                            <input
-                              name="username"
-                              type="text"
-                              class="form-control"
-                              id="input-email"
-                              placeholder="请输入账号"
-                            />
+                            <input name="username" type="text" class="form-control" id="input-email" placeholder="请输入账号" />
                           </div>
                         </div>
                         <div class="form-group mb-4">
-                          <div
-                            class="d-flex align-items-center justify-content-between"
-                          >
+                          <div class="d-flex align-items-center justify-content-between">
                             <div>
                               <label class="form-control-label">密码</label>
                             </div>
                             <div class="mb-2">
-                              <a
-                                href="javascript:;"
-                                class="small text-muted text-underline--dashed border-primary"
-                                >忘记密码</a
-                              >
+                              <a href="javascript:;" class="small text-muted text-underline--dashed border-primary">忘记密码</a>
                             </div>
                           </div>
                           <div class="input-group input-group-merge">
                             <div class="input-group-prepend">
-                              <span class="input-group-text"
-                                ><i class="bi bi-key"></i
-                              ></span>
+                              <span class="input-group-text"><i class="bi bi-key"></i></span>
                             </div>
-                            <input
-                              name="password"
-                              type="password"
-                              class="form-control"
-                              id="input-password"
-                              placeholder="请输入密码"
-                            />
+                            <input name="password" type="password" class="form-control" id="input-password" placeholder="请输入密码" />
                             <div class="input-group-append">
                               <span class="input-group-text">
-                                <a
-                                  href="javascript:;"
-                                  data-toggle="password-text"
-                                  data-target="#input-password"
-                                >
+                                <a href="javascript:;" data-toggle="password-text" data-target="#input-password">
                                   <i class="bi bi-eye-fill text-blue"></i>
                                 </a>
                               </span>
@@ -85,27 +59,14 @@
                           </div>
                         </div>
                         <div class="mt-4">
-                          <button
-                            id="btn-register"
-                            type="button"
-                            class="btn btn-sm btn-info btn-icon btn-blue rounded-pill"
-                          >
+                          <button id="btn-register" type="button" class="btn btn-sm btn-info btn-icon btn-blue rounded-pill">
                             <span class="btn-inner--text">注册</span>
-                            <span class="btn-inner--icon"
-                              ><i class="bi bi-arrow-right"></i
-                            ></span>
+                            <span class="btn-inner--icon"><i class="bi bi-arrow-right"></i></span>
                           </button>
                         </div>
                       </form>
                     </div>
-                    <div class="card-footer px-md-5">
-                      <small>已经注册？</small>
-                      <a
-                        href="./login.html"
-                        class="small font-weight-bold text-blue"
-                        >去登录吧</a
-                      >
-                    </div>
+                    <div class="card-footer px-md-5"><small>已经注册？</small> <a href="./login.html" class="small font-weight-bold text-blue">去登录吧</a></div>
                   </div>
                 </div>
               </div>
@@ -115,10 +76,7 @@
       </div>
     </div>
     <!-- toast -->
-    <div
-      class="position-fixed top-0 start-50 pt-4"
-      style="z-index: 999; transform: translateX(-50%)"
-    >
+    <div class="position-fixed top-0 start-50 pt-4" style="z-index: 999; transform: translateX(-50%)">
       <div id="myToast" class="toast bg-rgba">
         <div class="toast-body">提示消息</div>
       </div>
@@ -128,26 +86,43 @@
     <script src="./lib/axios.js"></script>
     <script src="./js/common.js"></script>
     <script>
-           document.querySelector('#btn-register').onclick = function () {
-             const data = serialize(document.querySelector('form'), { hash: true })
-             console.log(data)
-
-             if (!data.password || !data.username) return tip('用户名或密码不能为空')
-          if (data.password.length < 6) return tip('密码不能小于6')
-             try{
-
-           const res = await axios({
-               method:'POST',
-               url:'/register',
-               data
-           })
-           console.log(res);
-           tip(res.data.message)
-           location.href='./login.html'
-         } catch (err) {
-           console.dir(err)
-           tip(err.response.data.message)
-         }
+      // tip('疯狂星期四 🐔 🥩')
+      // ---------- 用户注册 ----------
+      // 1. 点击注册
+      document.querySelector('#btn-register').onclick = async function () {
+        // console.log('click')
+        // 获取表单数据 +判断
+        // 非空 密码长度>=6
+        const data = serialize(document.querySelector('form'), { hash: true })
+        // 表单元素内容为空直接拿不到某个属性
+        // console.log('data:', data)
+        if (data.username === undefined || data.password === undefined) {
+          tip('用户名/密码不能为空哦 😁')
+          return
+        }
+        // 内容不为空 长度判断
+        if (data.password.length < 6) {
+          tip('密码应该要大于等于6位 😁')
+          return
+        }
+        // 不为空 密码长度是ok
+        try {
+          const res = await axios({
+            url: '/register',
+            method: 'post',
+            data, // data:data
+          })
+          // console.log('res:', res)
+          tip(res.message) // undefine
+          // 如果可以继续执行到这里 --注册成功
+          setTimeout(() => {
+            window.location.assign('./login.html')
+          }, 1000)
+        } catch (error) {
+          // 注册失败 请求失败
+          // console.dir(error)
+          tip(error.response.data.message)
+        }
       }
     </script>
   </body>

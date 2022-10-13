@@ -9,13 +9,6 @@
     <link rel="stylesheet" href="./bootstrap/bootstrap-icons.css" />
     <link rel="stylesheet" href="./css/common.css" />
     <link rel="stylesheet" href="./css/login.css" />
-    <script>
-      const token = localStorage.getItem('token')
-      console.log(token)
-      if (token === null) {
-        location.href = './login.html'
-      }
-    </script>
   </head>
   <body class="application application-offset">
     <div class="container-fluid container-application">
@@ -37,54 +30,28 @@
                           <label class="form-control-label">账号</label>
                           <div class="input-group input-group-merge">
                             <div class="input-group-prepend">
-                              <span class="input-group-text"
-                                ><i class="bi bi-person"></i
-                              ></span>
+                              <span class="input-group-text"><i class="bi bi-person"></i></span>
                             </div>
-                            <input
-                              name="username"
-                              type="text"
-                              class="form-control"
-                              id="input-email"
-                              placeholder="请输入账号"
-                            />
+                            <input name="username" type="text" class="form-control" id="input-email" placeholder="请输入账号" />
                           </div>
                         </div>
                         <div class="form-group mb-4">
-                          <div
-                            class="d-flex align-items-center justify-content-between"
-                          >
+                          <div class="d-flex align-items-center justify-content-between">
                             <div>
                               <label class="form-control-label">密码</label>
                             </div>
                             <div class="mb-2">
-                              <a
-                                href="javascript:;"
-                                class="small text-muted text-underline--dashed border-primary"
-                                >忘记密码</a
-                              >
+                              <a href="javascript:;" class="small text-muted text-underline--dashed border-primary">忘记密码</a>
                             </div>
                           </div>
                           <div class="input-group input-group-merge">
                             <div class="input-group-prepend">
-                              <span class="input-group-text"
-                                ><i class="bi bi-key"></i
-                              ></span>
+                              <span class="input-group-text"><i class="bi bi-key"></i></span>
                             </div>
-                            <input
-                              name="password"
-                              type="password"
-                              class="form-control"
-                              id="input-password"
-                              placeholder="请输入密码"
-                            />
+                            <input name="password" type="password" class="form-control" id="input-password" placeholder="请输入密码" />
                             <div class="input-group-append">
                               <span class="input-group-text">
-                                <a
-                                  href="javascript:;"
-                                  data-toggle="password-text"
-                                  data-target="#input-password"
-                                >
+                                <a href="javascript:;" data-toggle="password-text" data-target="#input-password">
                                   <i class="bi bi-eye-fill text-blue"></i>
                                 </a>
                               </span>
@@ -92,27 +59,14 @@
                           </div>
                         </div>
                         <div class="mt-4">
-                          <button
-                            id="btn-login"
-                            type="button"
-                            class="btn btn-sm btn-info btn-icon btn-blue rounded-pill"
-                          >
+                          <button id="btn-login" type="button" class="btn btn-sm btn-info btn-icon btn-blue rounded-pill">
                             <span class="btn-inner--text">登录</span>
-                            <span class="btn-inner--icon"
-                              ><i class="bi bi-arrow-right"></i
-                            ></span>
+                            <span class="btn-inner--icon"><i class="bi bi-arrow-right"></i></span>
                           </button>
                         </div>
                       </form>
                     </div>
-                    <div class="card-footer px-md-5">
-                      <small>没有注册？</small>
-                      <a
-                        href="./register.html"
-                        class="small font-weight-bold text-blue"
-                        >创建账号</a
-                      >
-                    </div>
+                    <div class="card-footer px-md-5"><small>没有注册？</small> <a href="./register.html" class="small font-weight-bold text-blue">创建账号</a></div>
                   </div>
                 </div>
               </div>
@@ -122,10 +76,7 @@
       </div>
     </div>
     <!-- toast -->
-    <div
-      class="position-fixed top-0 start-50 pt-4"
-      style="z-index: 999; transform: translateX(-50%)"
-    >
+    <div class="position-fixed top-0 start-50 pt-4" style="z-index: 999; transform: translateX(-50%)">
       <div id="myToast" class="toast bg-rgba">
         <div class="toast-body">提示消息</div>
       </div>
@@ -135,26 +86,41 @@
     <script src="./lib/axios.js"></script>
     <script src="./js/common.js"></script>
     <script>
-            document.querySelector('#btn=login').onclick = function () {
-              const data = serialize(document.querySelector('form'), { hash: true })
-              if (!data.password || !data.username) return tip('用户名或密码不能为空')
-              if (data.password.length < 6) return tip('密码不能小于6')
-              console.log(data);
-            try {
+      // ---------- 1.点击登录 ----------
+      document.querySelector('#btn-login').onclick = async function () {
+        // 2.获取数据 +判断
+        const data = serialize(document.querySelector('form'), { hash: true })
+        // console.log('data:', data)
+        if (data.username === undefined || data.password === undefined) {
+          tip('用户名密码不能为空!')
+          return // 阻断后续逻辑
+        }
+        // 密码长度判断
+        if (data.password.length < 6) {
+          tip('密码不能小于6位!')
+          return // 阻断后续逻辑
+        }
+        // 提交数据
+        try {
+          const res = await axios({
+            url: '/login',
+            method: 'post',
+            data, // data:data
+          })
+          // console.log('res:', res)
+          // 保存 token
+          localStorage.setItem('token', res.data.token)
+          localStorage.setItem('username', res.data.username)
 
-      const res = await axios({
-          method:'POST',
-          url:'/login',
-          data
-      })
-      console.log(res);
-      tip(res.data.message)
-      localStorage.setItem('token',res.data.dada.token)
-      location.href='./index.html'
-      } catch (err) {
-      console.dir(err)
-      tip(err.response.data.message)
-      }
+          // 成功
+          tip(res.message)
+          // 跳转
+          window.location.assign('./index.html')
+        } catch (error) {
+          console.dir(error) // 如果来源不是请求的错误而是其他的语法错误
+          // tip 无法通过response.data.message 获取数据
+          tip(error.response.data.message)
+        }
       }
     </script>
   </body>
