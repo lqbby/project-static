@@ -52,6 +52,12 @@ axios.interceptors.response.use(
     return response.data
   },
   function (error) {
+    console.dir(error)
+    logout.onclick = function () {
+      localStorage.removeItem('token')
+      localStorage.removeItem('username')
+      location.href = './login.html'
+    }
     // 超出 2xx 范围的状态码都会触发该函数。
     // 对响应错误做点什么
     return Promise.reject(error)
