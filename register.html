@@ -100,7 +100,7 @@
               data
           })
           console.log(res);
-            tip(res.data.message)
+            tip(res.message)
             location.href = './login.html'
           }catch(err){
             tip(err.response.data.message)
