@@ -1,73 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>登录</title>
-    <link rel="stylesheet" href="./bootstrap/bootstrap.min.css" />
-    <link rel="stylesheet" href="./bootstrap/bootstrap-icons.css" />
-    <link rel="stylesheet" href="./css/common.css" />
-    <link rel="stylesheet" href="./css/login.css" />
-  </head>
-  <body class="application application-offset">
-    <div class="container-fluid container-application">
-      <div class="main-content position-relative">
-        <!-- Page content -->
-        <div class="page-content">
-          <div class="min-vh-100 py-5 d-flex align-items-center">
-            <div class="w-100">
-              <div class="row justify-content-center">
-                <div class="col-sm-8 col-lg-4">
-                  <div class="card shadow zindex-100 mb-0">
-                    <div class="card-body px-md-5 py-5">
-                      <div class="mb-5">
-                        <h6 class="h3">传智教育-登录</h6>
-                      </div>
-                      <span class="clearfix"></span>
-                      <form role="form" autocomplete="off">
-                        <div class="form-group">
-                          <label class="form-control-label">账号</label>
-                          <div class="input-group input-group-merge">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="bi bi-person"></i></span>
-                            </div>
-                            <input name="username" type="text" class="form-control" id="input-email" placeholder="请输入账号" />
-                          </div>
-                        </div>
-                        <div class="form-group mb-4">
-                          <div class="d-flex align-items-center justify-content-between">
-                            <div>
-                              <label class="form-control-label">密码</label>
-                            </div>
-                            <div class="mb-2">
-                              <a href="javascript:;" class="small text-muted text-underline--dashed border-primary">忘记密码</a>
-                            </div>
-                          </div>
-                          <div class="input-group input-group-merge">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="bi bi-key"></i></span>
-                            </div>
-                            <input name="password" type="password" class="form-control" id="input-password" placeholder="请输入密码" />
-                            <div class="input-group-append">
-                              <span class="input-group-text">
-                                <a href="javascript:;" data-toggle="password-text" data-target="#input-password">
-                                  <i class="bi bi-eye-fill text-blue"></i>
-                                </a>
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="mt-4">
-                          <button id="btn-login" type="button" class="btn btn-sm btn-info btn-icon btn-blue rounded-pill">
-                            <span class="btn-inner--text">登录</span>
-                            <span class="btn-inner--icon"><i class="bi bi-arrow-right"></i></span>
-                          </button>
-                        </div>
-                      </form>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>登录</title>
+  <link rel="stylesheet" href="./bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="./bootstrap/bootstrap-icons.css" />
+  <link rel="stylesheet" href="./css/common.css" />
+  <link rel="stylesheet" href="./css/login.css" />
+</head>
+
+<body class="application application-offset">
+  <div class="container-fluid container-application">
+    <div class="main-content position-relative">
+      <!-- Page content -->
+      <div class="page-content">
+        <div class="min-vh-100 py-5 d-flex align-items-center">
+          <div class="w-100">
+            <div class="row justify-content-center">
+              <div class="col-sm-8 col-lg-4">
+                <div class="card shadow zindex-100 mb-0">
+                  <div class="card-body px-md-5 py-5">
+                    <div class="mb-5">
+                      <h6 class="h3">传智教育-登录</h6>
                     </div>
-                    <div class="card-footer px-md-5"><small>没有注册？</small> <a href="./register.html" class="small font-weight-bold text-blue">创建账号</a></div>
+                    <span class="clearfix"></span>
+                    <form role="form" autocomplete="off">
+                      <div class="form-group">
+                        <label class="form-control-label">账号</label>
+                        <div class="input-group input-group-merge">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="bi bi-person"></i></span>
+                          </div>
+                          <input name="username" type="text" class="form-control" id="input-email"
+                            placeholder="请输入账号" />
+                        </div>
+                      </div>
+                      <div class="form-group mb-4">
+                        <div class="d-flex align-items-center justify-content-between">
+                          <div>
+                            <label class="form-control-label">密码</label>
+                          </div>
+                          <div class="mb-2">
+                            <a href="javascript:;"
+                              class="small text-muted text-underline--dashed border-primary">忘记密码</a>
+                          </div>
+                        </div>
+                        <div class="input-group input-group-merge">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="bi bi-key"></i></span>
+                          </div>
+                          <input name="password" type="password" class="form-control" id="input-password"
+                            placeholder="请输入密码" />
+                          <div class="input-group-append">
+                            <span class="input-group-text">
+                              <a href="javascript:;" data-toggle="password-text" data-target="#input-password">
+                                <i class="bi bi-eye-fill text-blue"></i>
+                              </a>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="mt-4">
+                        <button id="btn-login" type="button" class="btn btn-sm btn-info btn-icon btn-blue rounded-pill">
+                          <span class="btn-inner--text">登录</span>
+                          <span class="btn-inner--icon"><i class="bi bi-arrow-right"></i></span>
+                        </button>
+                      </div>
+                    </form>
                   </div>
+                  <div class="card-footer px-md-5"><small>没有注册？</small> <a href="./register.html"
+                      class="small font-weight-bold text-blue">创建账号</a></div>
                 </div>
               </div>
             </div>
@@ -75,37 +80,51 @@
         </div>
       </div>
     </div>
-    <!-- toast -->
-    <div class="position-fixed top-0 start-50 pt-4" style="z-index: 999; transform: translateX(-50%)">
-      <div id="myToast" class="toast bg-rgba">
-        <div class="toast-body">提示消息</div>
-      </div>
+  </div>
+  <!-- toast -->
+  <div class="position-fixed top-0 start-50 pt-4" style="z-index: 999; transform: translateX(-50%)">
+    <div id="myToast" class="toast bg-rgba">
+      <div class="toast-body">提示消息</div>
     </div>
-    <script src="./bootstrap/bootstrap.min.js"></script>
-    <script src="./lib/form-serialize.js"></script>
-    <script src="./lib/axios.js"></script>
-    <script src="./js/common.js"></script>
-    <script>
-        document.querySelector('#btn-login').onclick = async function(){
-          const data = serialize(document.querySelector('form'),{hash:true})
-          if(!data.password||!data.username)return tip('用户名和密码不能为空')
-          if(data.password.length < 6)return tip('密码长度不能小于6位')
-          console.log(data);
-          try{
-            const res = await axios({
-              method:'POST',
-              url:'/login',
-              data
-          })
-          console.log(res);
-            tip(res.data.message)
-            localStorage.setItem('token',res.data.token)
-            localStorage.setItem('username',res.data.username)
-            location.href = './index.html'
-          }catch(err){
-            tip(err.response.data.message)
-          }
-        } 
-    </script>
-  </body>
+  </div>
+  <script src="./bootstrap/bootstrap.min.js"></script>
+  <script src="./lib/form-serialize.js"></script>
+  <script src="./lib/axios.js"></script>
+  <script src="./js/common.js"></script>
+  <script>
+    // 给登录按钮绑定点击事件，收集表单数据，表单数据校验，ajax请求
+    document.querySelector('#btn-login').onclick = async function () {
+      const data = serialize(document.querySelector('form'), { hash: true })
+      // 非空校验
+      if (!data.password || !data.username) return tip('用户名或密码不能为空')
+      // 密码长度不能小于6
+      if (data.password.length < 6) return tip('密码不能小于6')
+      console.log(data);
+      try {
+        //发送ajax请求 登录
+        const res = await axios({
+          method: 'POST',
+          url: '/login',
+          data
+        })
+        console.log(res);
+        tip(res.message)
+        // localStorage.setItem('key','value')
+        // localStorage.getItem('key')
+        // localStorage.removeItem('key')
+        //用户登录成功之后 后台就会给我们一个凭证 我们是在登录页面获取的，但是我们是在其他页面使用，并且页面关了再重新打开这个东西还要打
+        // 所以需要持久存储 所以要用本地存储
+        localStorage.setItem('token', res.data.token)
+        localStorage.setItem('username', res.data.username)
+        // 跳转到后台首页
+        location.href = './index.html'
+      } catch (err) {
+        console.dir(err);
+        tip(err.response.data.message)
+      }
+    }
+    //123
+  </script>
+</body>
+
 </html>
