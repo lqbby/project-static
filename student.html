@@ -213,6 +213,7 @@
         </div>
         <div class="modal-body">
           <form id="form" class="g-3 row" autocomplete="off" novalidate>
+            <input type="hidden" name="id">
             <div class="col-sm-6">
               <div class="form-group">
                 <label class="input-group-label">姓名：</label>
@@ -237,7 +238,7 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label class="input-group-label">年龄：</label>
-                <input type="text" name="age" class="form-control" placeholder="请输入年龄" />
+                <input type="number" required min="10" max="90" name="age" class="form-control" placeholder="请输入年龄" />
               </div>
             </div>
             <div class="col-sm-6">
@@ -288,27 +289,159 @@
   <script src="./lib/form-serialize.js"></script>
   <script src="./js/common.js"></script>
   <script>
-    // 200 成功 404 资源找不到 500 服务器出错 401 没有权限
-    //我们涉及到登录的项目有一个东西很重要叫token 
-    // 1. 什么时候获取到token  登录的时候 login 
-    // 2. token存到哪里 本地存储 localStorage 因为我们后面有很多页面要用 所以要持久化
-    // 3. 什么时候需要用token 一般一个项目接口只有二个地方不用（注册和登录）
-    // 4. 以后大家上班的项目只要发现拿数据拿回来一个401就要明白ajax没有加上headers  看电影带门票
-    // 测试代码
-    window.onload = async function () {
-      const res = await axios({
-        url: '/students',
-        // 自定义请求头 我们需要权限的接口需要设置 如果没有 返回 401 
-        // headers: {
-        //   // a: 'abc',
-        //   // b: 'bcd'
-        //   Authorization: localStorage.getItem('token'),
-        // }
-      })
-      console.log(res);
-    }
+    window.onload = function () {
+      // 删除成功要再拿一次 编辑成功再拿一次 所以最好的写法把代码封装在一个函数里面
+      async function getStudentList() {
+        const res = await axios({ url: '/students' })
+        console.log(res);
+        const str = res.data.map(item => `
+        <tr>
+          <td>${item.name}</td>
+          <td>${item.age}</td>
+          <td>${item.gender === 0 ? '男' : '女'}</td>
+          <td>第${item.group}组</td>
+          <td>${item.hope_salary}</td>
+          <td>${item.salary}</td>
+          <td>${item.province}${item.city}${item.area}</td>
+          <td data-id="${item.id}">
+            <a href="javascript:;" class="text-success mr-3"><i class="bi bi-pen"></i></a>
+            <a href="javascript:;" class="text-danger"><i class="bi bi-trash"></i></a>
+          </td>
+        </tr>
+        `).join('')
+        document.querySelector('tbody').innerHTML = str
+      }
 
-    // 100个接口都需要headers中添加token 
+      getStudentList()
+
+      let myModal = new bootstrap.Modal(document.getElementById('modal'))
+
+      // 删除功能 和 编辑 事件委托
+      document.querySelector('tbody').onclick = async function (e) {
+        if (e.target.classList.contains('bi-trash')) {
+          console.log('删除');
+          //parentNode 儿子找父亲
+          const id = e.target.parentNode.parentNode.dataset.id
+          console.log(id);
+          await axios({ method: 'DELETE', url: `/students/${id}` })
+          alert('删除成功')
+          getStudentList()
+        } else if (e.target.classList.contains('bi-pen')) {
+          console.log('编辑');
+          document.querySelector('.modal-title').innerHTML = '编辑'
+          const id = e.target.parentNode.parentNode.dataset.id
+          const res = await axios({ url: `/students/${id}` })
+          console.log(res);
+          renderSSQ()
+          // 复选框 单选 select checked 
+          //写九行
+          for (let key in res.data) {
+            if (key === 'gender') {
+              //交集选择器 
+              [name = "gender"]
+              document.querySelector(`[name="${key}"][value='${res.data[key]}']`).checked = true
+            }
+            if (document.querySelector(`[name="${key}"]`)) {
+              document.querySelector(`[name="${key}"]`).value = res.data[key]
+            }
+
+          }
+          myModal.show()//把这一行放最后面
+        }
+      }
+
+      //添加功能第一步 - 模态框显示和省市区联动
+
+      document.querySelector('#openModal').onclick = function () {
+        document.querySelector('.modal-title').innerHTML = '新增学员'
+        document.querySelector('form').reset()
+        myModal.show()
+        renderSSQ()
+      }
+
+      // get 获取 
+      // post 新增
+      // delete 删除
+      // put 修改
+      // 添加的第二步 新增保存
+      document.querySelector('#submit').onclick = async function () {
+        const data = serialize(document.querySelector('form'), { hash: true })
+        console.log(data);
+        const reg = /\d+/
+        if (!reg.test(data.age)) return alert('年龄是非法的,必须是数字')
+        // 把数字类型进行转换
+        data.age = +data.age
+        data.gender = +data.gender
+        data.salary = +data.salary
+        data.hope_salary = +data.hope_salary
+        data.group = +data.group
+        if (document.querySelector('[name="id"]').value) {
+          console.log('在做编辑第二步 ');
+          const res = await axios({ method: 'PUT', url: `/students/${data.id}`, data })
+          console.log(res);
+          myModal.hide()//隐藏模态模态框
+          getStudentList()//获取最新的列表数据
+          document.querySelector('form').reset()
+        } else {
+
+          try {
+            const res = await axios({ method: 'POST', url: '/students', data })
+            console.log(res);
+            myModal.hide()//隐藏模态模态框
+            getStudentList()//获取最新的列表数据
+            document.querySelector('form').reset()
+          } catch (err) {
+            alert('数据格式有问题,请重来')
+          }
+        }
+      }
+
+
+
+
+      //渲染省市区联动
+      function renderSSQ() {
+        renderProvince()
+
+        // 省市区联动
+        document.querySelector('[name="province"]').onchange = function () {
+          renderCity(this.value);
+        }
+
+        // 市区的联动
+        document.querySelector('[name="city"]').onchange = function () {
+          const pname = document.querySelector('[name="province"]').value
+          renderArea(pname, this.value);
+        }
+      }
+      //渲染省份数据
+      async function renderProvince() {
+        const res = await axios({ url: '/api/province' })
+        console.log(res);
+        document.querySelector('[name="province"]').innerHTML = res.data.map(item => `<option>${item}</option>`).join('')
+        const pname = document.querySelector('[name="province"]').value
+        renderCity(pname)
+      }
+
+      //渲染城市数据
+      async function renderCity(pname) {
+        const res = await axios({ url: '/api/city', params: { pname } })
+        console.log(res);
+        document.querySelector('[name="city"]').innerHTML = res.data.map(item => `<option>${item}</option>`).join('')
+
+
+        const cname = document.querySelector('[name="city"]').value
+        renderArea(pname, cname)
+      }
+
+
+      //渲染城市数据
+      async function renderArea(pname, cname) {
+        const res = await axios({ url: '/api/area', params: { pname, cname } })
+        console.log(res);
+        document.querySelector('[name="area"]').innerHTML = res.data.map(item => `<option>${item}</option>`).join('')
+      }
+    }
   </script>
 </body>
 
